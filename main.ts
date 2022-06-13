@@ -1,10 +1,12 @@
 import { Application, send } from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import * as log from "https://deno.land/std@0.143.0/log/mod.ts";
+import { config } from "https://deno.land/std@0.143.0/dotenv/mod.ts";
 import router from "./src/router.ts";
-import { config } from "./config/config.ts";
+
+await config({ safe: true })
 
 const app = new Application();
-const { PORT } = config;
+const PORT = Deno.env.get("PORT") || '8000'
 
 app.addEventListener("error", (event) => {
   log.error(event.error);
