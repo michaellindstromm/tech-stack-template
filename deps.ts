@@ -1,7 +1,10 @@
 export {
+  basename,
   dirname,
+  extname,
   fromFileUrl,
   join,
+  resolve,
 } from "https://deno.land/std@0.143.0/path/mod.ts";
 export {
   json,
