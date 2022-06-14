@@ -22,7 +22,7 @@ for await (const dirEntry of Deno.readDir(`${Deno.cwd()}/views`)) {
 
 console.log(fileNames);
 app.set("views", viewsPath);
-app.use(serveStatic(`${Deno.cwd()}/views`));
+app.use(serveStatic(`${Deno.cwd()}/public`));
 app.set("view engine", "html")
 app.set("view cache", PRODUCTION);
 app.use('/', router)
