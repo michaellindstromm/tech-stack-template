@@ -8,6 +8,7 @@ const PORT = Deno.env.get("PORT") || '8000'
 const ENV = Deno.env.get("ENV") || 'DEV'
 const PRODUCTION = ENV === 'production'
 const VIEWS_DIR = `${Deno.cwd()}/views`
+const PUBLIC_DIR = `${Deno.cwd()}/public`
 
 configure({
   views: VIEWS_DIR
@@ -15,8 +16,8 @@ configure({
 
 const app = opine()
 app.engine(".html", renderFile)
-//app.set("views", `${Deno.cwd()}/views`)
-app.use(serveStatic(`${Deno.cwd()}/public`))
+app.set("views", VIEWS_DIR)
+app.use(serveStatic(PUBLIC_DIR))
 app.set("view engine", "html")
 app.set("view cache", PRODUCTION)
 app.use('/', router)
