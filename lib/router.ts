@@ -8,7 +8,8 @@ const users = [
 ];
 // Home page route
 router.get("/", function(_req, res) {
-  res.set("cache-control", "no-store").render("index.html", {
+  res.set("cache-control", "no-store")
+  res.render("index", {
     users,
     title: "Eta example",
     header: "Some users",
@@ -17,7 +18,7 @@ router.get("/", function(_req, res) {
 
 // About test route
 router.get("/test", function(_req, res) {
-  res.render('test.html', {
+  res.render('test', {
     title: 'deno / opine / eta / test'
   })
 });
