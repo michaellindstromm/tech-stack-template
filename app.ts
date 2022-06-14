@@ -22,7 +22,7 @@ const app = opine();
 // View engine setup
 app.engine("eta", renderFile);
 //app.set("views", join(__dirname, "views"));
-app.set("views", `${Deno.cwd()}/views`);
+app.set("views", `${Deno.cwd()}\\views`);
 app.set("view engine", "eta");
 
 // Handle different incoming body types
@@ -30,7 +30,7 @@ app.use(json());
 app.use(urlencoded());
 
 // Serve our static assets
-app.use(serveStatic(join(__dirname, "public")));
+app.use(serveStatic(`${Deno.cwd()}\\public`));
 
 // Mount our routers
 app.use("/", indexRouter);
