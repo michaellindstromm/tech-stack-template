@@ -6,10 +6,11 @@ const users = [
   { name: "SuperDeno", email: "superdeno@denoland.com" },
   { name: "Deno the Dinosaur", email: "denosaur@denoland.com" },
 ];
+
 // Home page route
 router.get("/", function(_req, res) {
   res.set("cache-control", "no-store")
-  res.render("index", {
+  res.render("home", {
     users,
     title: "Eta example",
     header: "Some users",
