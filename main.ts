@@ -12,10 +12,21 @@ const PRODUCTION = ENV === 'production'
 const app = opine()
 const __dirname = dirname(import.meta.url);
 app.engine(".html", renderFile);
-app.set("views", join(__dirname, "views"));
+const viewsPath = join(__dirname, "views")
+console.log('viewsPath: ', viewsPath)
+const fileNames: string[] = [];
+  
+for await (const dirEntry of Deno.readDir(`${Deno.cwd()}/views`)) {
+  if (dirEntry.isFile) {
+    fileNames.push(dirEntry.name);
+  }
+}
+
+console.log(fileNames);
+app.set("views", viewsPath);
 app.use(serveStatic(join(__dirname, "public")));
 app.set("view engine", "html")
-app.set("view cache", PRODUCTION);
+app.set("view cache", false);
 app.use('/', router)
 
 if (import.meta.main) {
