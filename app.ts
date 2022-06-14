@@ -22,7 +22,7 @@ const app = opine();
 // View engine setup
 app.engine("eta", renderFile);
 //app.set("views", join(__dirname, "views"));
-app.set("views", `./views`);
+app.set("views", `./src/views`);
 app.set("view engine", "eta");
 
 // Handle different incoming body types
