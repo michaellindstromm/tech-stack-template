@@ -1,7 +1,7 @@
 import { opine, serveStatic } from "https://deno.land/x/opine@2.2.0/mod.ts";
 import { config } from "https://deno.land/std@0.143.0/dotenv/mod.ts";
 import { renderFile } from "https://deno.land/x/eta@v1.12.3/mod.ts"
-import router from "./src/router.ts";
+import router from "./lib/router.ts";
 
 await config({ safe: true })
 const PORT = Deno.env.get("PORT") || '8000'
@@ -11,7 +11,7 @@ const PRODUCTION = ENV === 'production'
 const app = opine()
 
 app.engine(".html", renderFile)
-app.set("views", `${Deno.cwd()}/src/views`)
+app.set("views", `${Deno.cwd()}/views`)
 app.use(serveStatic(`${Deno.cwd()}/public`))
 app.set("view engine", "html")
 app.set("view cache", PRODUCTION);
