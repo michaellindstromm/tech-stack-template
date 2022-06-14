@@ -15,7 +15,7 @@ configure({
 })
 
 const app = opine()
-app.engine(".html", renderFile)
+app.engine("html", renderFile)
 app.set("views", VIEWS_DIR)
 app.use(serveStatic(PUBLIC_DIR))
 app.set("view engine", "html")
