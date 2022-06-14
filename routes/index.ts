@@ -39,11 +39,18 @@ const presolve = (dir: string, file: string): string | undefined => {
 }
 
 // GET home page.
-router.get("/", (req, res, _next) => {
-  console.log('app: ', req.app)
+router.get("/", async (req, res, _next) => {
+  const fileNames: string[] = [];
+  const root = req.app.get("views")
+  for await (const dirEntry of Deno.readDir(root)) {
+    if (dirEntry.isFile) {
+      fileNames.push(dirEntry.name);
+    }
+  }
+  
+  console.log('fileNames: ', fileNames);
   console.log('View: ', req.app.get('view'))
   const View = req.app.get("view");
-  const root = req.app.get("views")
   const view = new View('index.eta', {
     defaultEngine: req.app.get("view engine"),
     engines: req.app.engines,
