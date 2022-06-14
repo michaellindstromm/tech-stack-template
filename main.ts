@@ -11,7 +11,7 @@ const PRODUCTION = ENV === 'production'
 const app = opine()
 
 app.engine(".html", renderFile)
-app.set("views", `${Deno.cwd()}/views`)
+app.set("views", `${Deno.cwd()}/src/views`)
 app.use(serveStatic(`${Deno.cwd()}/public`))
 app.set("view engine", "html")
 app.set("view cache", PRODUCTION);
