@@ -1,42 +1,28 @@
-import { Application, send } from "https://deno.land/x/oak@v10.6.0/mod.ts";
-import * as log from "https://deno.land/std@0.143.0/log/mod.ts";
+import { opine, serveStatic } from "https://deno.land/x/opine@2.2.0/mod.ts";
 import { config } from "https://deno.land/std@0.143.0/dotenv/mod.ts";
+import { renderFile } from "https://deno.land/x/eta@v1.12.3/mod.ts"
+import { dirname, join } from "https://deno.land/std@0.143.0/path/mod.ts";
+
 import router from "./src/router.ts";
 
 await config({ safe: true })
-
-const app = new Application();
 const PORT = Deno.env.get("PORT") || '8000'
+const ENV = Deno.env.get("ENV") || 'DEV'
+const PRODUCTION = ENV === 'production'
 
-app.addEventListener("error", (event) => {
-  log.error(event.error);
-});
+const app = opine()
+const __dirname = dirname(import.meta.url)
 
-app.use(async (ctx, next) => {
-  try {
-    await next();
-  } catch (error) {
-    ctx.response.body = "Internal server error";
-    throw error;
-  }
-});
-
-app.use(router.routes());
-
-app.use(async (ctx) => {
-  const filePath = ctx.request.url.pathname;
-  const fileWhitelist = ["/index.html"];
-
-  if (fileWhitelist.includes(filePath)) {
-    await send(ctx, filePath, {
-      root: `${Deno.cwd()}/public`,
-    });
-  }
-});
+app.engine(".html", renderFile)
+app.set("views", join(__dirname, "views"))
+app.use(serveStatic(join(__dirname, "public")))
+app.set("view engine", "html")
+app.set("view cache", PRODUCTION);
+app.use('/', router)
 
 if (import.meta.main) {
-  log.info(`Starting server on port ${PORT}...`);
-  await app.listen({
-    port: parseInt(PORT) || 8000,
-  });
+  app.listen(parseInt(PORT));
+  console.log(`Opine started on port ${PORT}`);
 }
+
+export { app };
